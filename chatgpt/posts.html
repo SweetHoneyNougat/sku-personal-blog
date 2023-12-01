@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapi's Blog - Posts</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <div class="title">Lapi의 개인 블로그</div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="posts.html">Posts</a></li>
+          <li><a href="write.html">Write</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="posts-container"></div>
+  </main>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      // AJAX 요청
+      $.ajax({
+        url: 'search.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+          // 최신 날짜/시간 순으로 정렬
+          response.sort(function(a, b) {
+            return new Date(b.datetime) - new Date(a.datetime);
+          });
+
+          // 포스트 출력
+          var postsContainer = $('.posts-container');
+          for (var i = 0; i < response.length; i++) {
+            var post = response[i];
+            var postElement = $('<div>').addClass('post');
+            var titleElement = $('<h2>').addClass('post-title').text(post.title);
+            var contentElement = $('<p>').addClass('content').text(post.content);
+            var datetimeElement = $('<p>').addClass('datetime').text(post.datetime);
+            var deleteButton = $('<button>').addClass('delete-button').text('삭제');
+            deleteButton.attr('data-number', post.number); // 포스트 번호를 버튼의 data-number 속성에 저장
+            postElement.append(titleElement, contentElement, datetimeElement, deleteButton);
+            postsContainer.append(postElement);
+          }
+        },
+        error: function() {
+          alert('데이터를 불러오는 도중 오류가 발생했습니다.');
+        }
+      });
+
+      // 삭제 버튼 클릭 이벤트 핸들러
+      $(document).on('click', '.delete-button', function() {
+        var postNumber = $(this).data('number');
+        var postContainer = $(this).closest('.post');
+
+        // AJAX 요청
+        $.ajax({
+          url: 'delete.php',
+          type: 'POST',
+          data: { number: postNumber },
+          success: function() {
+            postContainer.remove(); // 삭제 성공 시 해당 포스트 컨테이너 제거
+          },
+          error: function() {
+            alert('포스트 삭제 중 오류가 발생했습니다.');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

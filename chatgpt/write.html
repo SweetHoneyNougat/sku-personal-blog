@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Lapi의 개인 블로그 - Write</title>
+</head>
+<body>
+  <header>
+    <div class="bar">
+      <span class="title">Lapi의 개인 블로그</span>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="posts.html">Posts</a></li>
+          <li><a href="write.html">Write</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section>
+      <h2>글쓰기</h2>
+      <form action="write.php" method="POST">
+        <label for="title">제목:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="content">내용:</label>
+        <textarea id="content" name="content" rows="5" required></textarea><br>
+        <input type="submit" value="작성하기">
+      </form>
+    </section>
+  </main>
+</body>
+</html>

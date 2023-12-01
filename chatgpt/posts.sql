@@ -1,0 +1,6 @@
+CREATE TABLE posts (
+  number INT AUTO_INCREMENT PRIMARY KEY,
+  datetime DATETIME NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
